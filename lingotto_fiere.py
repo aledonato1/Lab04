@@ -4,13 +4,12 @@ class Stand:
         self.superficie = int(superficie)
         self.padiglione = padiglione
         self.prezzo_base = float(prezzo_base)
-        self.espositore = None  # Nessuno stand è assegnato all'inizio
+        self.espositore = None
 
     def prezzo_finale(self):
         return self.prezzo_base
 
     def __lt__(self, other):
-        # Serve per ordinare gli stand dal meno caro al più caro
         return self.prezzo_finale() < other.prezzo_finale()
 
     def __str__(self):
@@ -28,7 +27,7 @@ class StandPreseExtra(Stand):
         self.numero_prese = int(numero_prese)
 
     def prezzo_finale(self):
-        # Aggiunge il 7% per ogni presa extra
+
         aumento = self.prezzo_base * 0.07 * self.numero_prese
         return self.prezzo_base + aumento
 
@@ -47,7 +46,7 @@ class StandPremium(Stand):
         self.posizione = posizione
 
     def prezzo_finale(self):
-        # Aggiunge il 30% fisso
+
         return self.prezzo_base * 1.30
 
     def __str__(self):
@@ -80,7 +79,7 @@ class LingottoFiere:
         self.espositori = []
 
     def carica_file_dati(self, file_path):
-        # Legge il file riga per riga manualmente senza moduli esterni
+
         with open(file_path, "r") as file:
             linee = file.readlines()
 
@@ -117,17 +116,17 @@ class LingottoFiere:
         stand_trovato = None
         espositore_trovato = None
 
-        # 1. Cerca lo stand
+
         for s in self.stands:
             if s.codice == codice_stand:
                 stand_trovato = s
 
-        # 2. Cerca l'espositore
+
         for e in self.espositori:
             if e.codice == codice_espositore:
                 espositore_trovato = e
 
-        # 3. Controlli di sicurezza con "is None" per le regole di sintassi
+
         if stand_trovato is None:
             raise Exception("Stand non trovato.")
         if espositore_trovato is None:
@@ -137,7 +136,6 @@ class LingottoFiere:
         if espositore_trovato.stand is not None:
             raise Exception("L'espositore ha già uno stand.")
 
-        # 4. Salva il collegamento in entrambi gli oggetti
         stand_trovato.espositore = espositore_trovato
         espositore_trovato.stand = stand_trovato
 
@@ -147,5 +145,5 @@ class LingottoFiere:
 
     def stand_ordinati_per_prezzo(self):
         copia_stands = list(self.stands)
-        copia_stands.sort()  # Ordina usando la regola in __lt__
+        copia_stands.sort()
         return copia_stands
